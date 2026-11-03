@@ -105,7 +105,11 @@ def answer_message(message: str) -> Answer:
             if opened and has(r"деньг\w*|карт\w*|срок\w*|когда", text):
                 add("refund")
 
-    product = has(r"цен\w*|стоим\w*|сколько\s+сто\w*|налич\w*|купить|\bx1\b|\bх1\b", text)
+    product = (
+        has(r"цен\w*|стоим\w*|сколько\s+сто\w*|налич\w*|купить", text)
+        or has(r"^(?:наушники\s+)?[xх]1[?!.\s]*$", text.strip())
+        or has(r"\bесть(?:\s+ли)?\s+(?:наушники\s+)?[xх]1\b", text)
+    )
     if (
         product
         and not (returns or opened or defect or order)

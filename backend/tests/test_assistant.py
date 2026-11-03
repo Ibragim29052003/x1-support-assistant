@@ -9,6 +9,7 @@ from app.policy import POLICY
     [
         ("Сколько стоят наушники?", ["product"]),
         ("Есть Х1 в наличии?", ["product"]),
+        ("Есть X1?", ["product"]),
         ("Как доставляете?", ["delivery"]),
         ("Когда вернут деньги?", ["refund"]),
         ("Можно вернуть вскрытые наушники без брака?", ["opened"]),
@@ -84,6 +85,14 @@ def test_missing_information_is_not_invented(question):
     result = answer_message(question)
     assert result.outcome in ("clarify", "out_of_scope")
     assert result.sources == []
+
+
+@pytest.mark.parametrize("question", ["Какая автономность X1?", "Подключение X1 к телевизору?"])
+def test_model_name_alone_does_not_make_an_unknown_question_answerable(question):
+    result = answer_message(question)
+    assert result.outcome == "out_of_scope"
+    assert result.sources == []
+    assert result.answer == POLICY.responses.unknown
 
 
 def test_known_and_unknown_topics_are_separated():
