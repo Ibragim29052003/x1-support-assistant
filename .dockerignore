@@ -1,0 +1,14 @@
+.git
+.github
+work
+outputs
+**/.venv
+**/node_modules
+**/dist
+**/*.tsbuildinfo
+**/__pycache__
+**/.pytest_cache
+**/.ruff_cache
+**/test-results
+**/playwright-report
+.env*
